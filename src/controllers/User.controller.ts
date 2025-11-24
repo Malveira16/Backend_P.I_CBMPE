@@ -12,6 +12,14 @@ export class UserController {
       if (!nome || !patente || !funcao || !email || !senha || !unidadeOperacional || !perfil) {
         return res.status(400).json({ message: "Preencha todos os campos obrigatórios." });
       }
+
+      // ✅ PREPARA CONTEXTO DE AUDITORIA (dados da requisição)
+      const auditContext = {
+        request_id: req.requestId, // Do middleware
+        actor_ip: req.ip || req.socket.remoteAddress,
+        actor_user_agent: req.headers['user-agent']
+      };
+
       const user = await userService.create({
         nome,
         patente,
@@ -22,7 +30,8 @@ export class UserController {
         perfil,
         createdAt: new Date(),
         updatedAt: new Date(),
-      });
+      }, auditContext);
+
       return  res.status(201).json(user);
     } catch (error) {
       console.error("Erro ao criar usuário:", error);
