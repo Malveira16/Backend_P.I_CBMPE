@@ -25,7 +25,7 @@ export class VitimaService {
 		if (!lesao) throw new Error("Lesão não encontrada");
 
 		const vitimaToSave: any = {
-			cpfVitima: data.cpfVitima ?? null,
+			cpfVitima: data.cpf_vitima || data.cpfVitima || null,
 			nome: data.nome,
 			idade: data.idade ?? null,
 			sexo: data.sexo ?? null,
