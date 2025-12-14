@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { v4 as uuidv4 } from 'uuid';
 import { LogAuditoriaService } from '../services/LogAuditoria.service';
-import { getLogAuditoriaRepository } from '../repositories/LogAuditoria.repository';
+import { logAuditoriaRepository } from '../repositories/LogAuditoria.repository';
 import { AppDataSource } from '../config/data-source';
 
 // Adiciona campos customizados ao Request do Express
@@ -77,7 +77,7 @@ export const auditMiddleware = (req: Request, res: Response, next: NextFunction)
         try {
           if (AppDataSource.isInitialized) {
             try {
-              const repo = getLogAuditoriaRepository();
+              const repo = logAuditoriaRepository();
               const existing = await repo.createQueryBuilder('l')
                 .where('l.detalhes LIKE :q', { q: `%"request_id":"${req.requestId}"%` })
                 .getOne();
