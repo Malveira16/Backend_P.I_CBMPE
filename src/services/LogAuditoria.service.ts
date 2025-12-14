@@ -11,6 +11,10 @@ export class LogAuditoriaService {
         return await logAuditoriaRepository().findOneBy({ id });
     }
 
+    async getLogsByUserId(userId: number): Promise<LogAuditoria[]> {
+        return await logAuditoriaRepository().findBy({ usuarioId: userId });
+    }
+
     async createLog(logData: Partial<LogAuditoria>): Promise<LogAuditoria> {
         const newLog = logAuditoriaRepository().create(logData);
         return await logAuditoriaRepository().save(newLog);
