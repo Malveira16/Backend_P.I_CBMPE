@@ -2,16 +2,26 @@ import { Request, Response } from "express";
 import { getPrevisao } from "../services/previsaoService";
 
 export async function previsaoController(req: Request, res: Response) {
-  const { municipio, data } = req.query;
+  const { municipio, data_inicio, dias } = req.query;
 
-  if (!municipio || !data) {
-    return res.status(400).json({ error: "Parâmetros municipio e data são obrigatórios" });
+  if (!municipio || !data_inicio) {
+    return res.status(400).json({
+      error: "Parâmetros municipio e data_inicio são obrigatórios",
+    });
   }
 
   try {
-    const resultado = await getPrevisao(municipio as string, data as string);
+    const resultado = await getPrevisao(
+      municipio as string,
+      data_inicio as string,
+      dias ? Number(dias) : 7
+    );
+
     return res.json(resultado);
   } catch (error) {
-    return res.status(500).json({ error: "Erro ao consultar microserviço de previsão" });
+    console.error("[PREVISAO]", error);
+    return res.status(500).json({
+      error: "Erro ao consultar microserviço de previsão",
+    });
   }
 }
