@@ -3,6 +3,6 @@ import { previsaoController } from "../controllers/previsaoController";
 
 const router = Router();
 
-router.get("/previsao", previsaoController);
+router.get("/", previsaoController);
 
 export default router;

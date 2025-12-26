@@ -27,7 +27,7 @@ import { AuditLog } from "../entities/AuditLog";
 dotenv.config();
 
 
-
+const isProd = process.env.NODE_ENV === "production";
 export const AppDataSource = new DataSource({
   type: "mysql",
   host: process.env.DB_HOST,
@@ -59,7 +59,7 @@ export const AppDataSource = new DataSource({
     LogConflito,
       AuditLog,
   ],
-  migrations: ["src/migrations/*.ts"],
+  migrations: isProd ? [] : ["src/migrations/*.ts"],
   // Em desenvolvimento, permitimos que o TypeORM sincronize o schema
   // Isso cria tabelas faltantes como `audit_logs`. NÃO habilite em produção.
   synchronize: process.env.NODE_ENV !== 'production',

@@ -77,4 +77,4 @@ app.use("/anexos", anexoRoutes);
 
 app.use("/audit", logAuditoriaRoutes);
 
-app.use("/api", previsaoRoutes);
+app.use("/previsao", previsaoRoutes);

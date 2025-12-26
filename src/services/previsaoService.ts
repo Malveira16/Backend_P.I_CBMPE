@@ -3,19 +3,27 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const BASE_URL = process.env.ML_BASE_URL; // URL do microserviço Python
+const BASE_URL = process.env.ML_BASE_URL;
 
-// Verifica se a variável existe
 if (!BASE_URL) {
   throw new Error("A variável de ambiente ML_BASE_URL não está definida!");
 }
 
-export async function getPrevisao(municipio: string, data: string) {
+export async function getPrevisao(
+  municipio: string,
+  dataInicio: string,
+  dias = 7
+) {
   try {
     const response = await axios.get(`${BASE_URL}/previsao`, {
-      params: { municipio, data },
+      params: {
+        municipio,
+        data_inicio: dataInicio,
+        dias,
+      },
     });
-    return response.data; // { municipio, data, previsao }
+
+    return response.data; // { municipio, previsoes: [...] }
   } catch (error) {
     console.error("Erro ao chamar microserviço de previsão:", error);
     throw error;
